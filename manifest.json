@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "notion-collect",
+  "version": "0.0.1",
+  "description": "将网址收藏到notion中",
+  "icons": {
+    "16": "public/notion16.png",
+    "32": "public/notion32.png",
+    "48": "public/notion48.png",
+    "128": "public/notion128.png"
+  },
+  "action": {
+    "default_popup": "index.html"
+  }
+}
