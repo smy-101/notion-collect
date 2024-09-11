@@ -32,6 +32,8 @@
     "service_worker": "src/background/service-worker.ts"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "tabs",
+    "activeTab"
   ]
 }
