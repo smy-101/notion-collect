@@ -1,15 +1,26 @@
-// import { getDatabasePages } from "../utils/notion";
+import {authStore} from '../store/store.ts';
 
-// console.log('====================================================');
+const {databaseId,auth} = authStore.getState();
 
-
-// console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++');
-
-
-// chrome.action.onClicked.addListener((tab) => {
-//   console.log(tab, 'tab');
-//   chrome.action.setIcon({ path: "public/collected_16.png" });
-// });
-
-
-// chrome.action.setIcon({ path: "collected_16.png" });
+// import {Client} from '@notionhq/client';
+// export interface AuthProps {
+//   auth: string;
+//   databaseId: string;
+// }
+// const testConnection = (authProps:AuthProps) => {
+//   const {auth,databaseId} = authProps;
+//   if(!auth || !databaseId){
+//     console.log('auth or databaseId is empty');
+//     return;
+//   }
+//   const notion = new Client({auth});
+//   return new Promise<void>((resolve,reject)=>{
+//     notion.databases.retrieve({ database_id: databaseId }).then(response => {
+//       console.log('Connection successful:', response);
+//       resolve();
+//     }).catch(error => {
+//       console.error('Connection failed:', error);
+//       reject('连接失败');
+//     });
+//   })
+// }

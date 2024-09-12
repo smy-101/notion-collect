@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useNotion} from './hooks';
+import {useAuthStore} from './store/store.ts';
 
 function App() {
   const [auth, setAuth] = useState('');
   const [databaseId,setDatabaseId] = useState('');
+
+  const {setAuthAndDatabaseId,auth:auth2,databaseId:database} = useAuthStore();
 
   const onAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAuth(e.target.value)
@@ -66,6 +69,7 @@ function App() {
     setTag2(e.target.value)
   };
 
+  // const [isUpdate,setIsUpdate] = useState(false);
   const add = () => {
     const data = {
       Name: {
@@ -97,7 +101,15 @@ function App() {
       },
     };
 
-    addData(data);
+    addData(data)
+  };
+
+  const test = () => {
+    setAuthAndDatabaseId('1','2');
+  };
+
+  const test2 = () => {
+    console.log(auth2,database,'=====================');
   };
 
   return (
@@ -125,6 +137,8 @@ function App() {
       </div>
       <div>
         <button onClick={add}>添加数据</button>
+        <button onClick={test}>测试</button>
+        <button onClick={test2}>测试2</button>
       </div>
     </>
   )
