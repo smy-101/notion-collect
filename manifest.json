@@ -34,6 +34,7 @@
   "permissions": [
     "storage",
     "tabs",
-    "activeTab"
+    "activeTab",
+    "scripting"
   ]
 }
