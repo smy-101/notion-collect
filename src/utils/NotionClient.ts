@@ -52,18 +52,22 @@ export class NotionClient{
   }
 
   public isExist(url:string){
-    return new Promise((resolve,reject) => {
+    return new Promise<string>((resolve,reject) => {
       this.loading = true;
       this.notion!.databases.query({
         database_id: this.databaseId!,
         filter: {
           property: "URL",
-          url: {
-            equals: url,
-          }
+          url: {equals: url}
         }
       })
-        .then(response => resolve(response))
+        .then(response => {
+          if(response?.results?.length > 0){
+            resolve(response.results[0].id)
+          }else{
+            reject('未找到对应的url')
+          }
+        })
         .catch(err=>reject(err))
         .finally(()=>this.loading = false);
     })
