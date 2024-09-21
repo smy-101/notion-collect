@@ -1,4 +1,4 @@
-import {NotionClient} from '../utils/NotionClient.ts';
+import {NotionClient} from '../utils';
 import {create} from 'zustand';
 
 type State = {
