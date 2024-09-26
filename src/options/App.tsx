@@ -1,17 +1,14 @@
 import {Button, Flex, Form, FormProps, Input, message} from 'antd';
 import {useEffect} from 'react';
-import {NotionClient} from '../utils';
-import {useStore} from '../store';
 
 type Response = {status:'success' | 'fail',message?:string};
-
 type FieldType = {
   auth?: string;
   databaseId?: string;
 };
 
-const AuthForm = () => {
-  const {setNotionClient} = useStore();
+//options页面暂时设置auth和databaseId  其他相关字段设置这里暂时不做处理 //todo
+const App = () => {
   const [form] = Form.useForm();
 
   const onFinish:FormProps<FieldType>['onFinish'] = (values) => {
@@ -20,7 +17,6 @@ const AuthForm = () => {
     chrome.runtime.sendMessage({ type: 'connect', payload: values }, (response: Response) => {
       if(response.status === 'success'){
         message.success('连接成功!');
-        setNotionClient(new NotionClient(values.auth!, values.databaseId!));
       }else{
         message.error('连接失败!');
       }
@@ -31,11 +27,10 @@ const AuthForm = () => {
     chrome.storage.local.get(['auth', 'databaseId', 'isConnect'], (result) => {
       const {auth, databaseId, isConnect} = result;
       if (isConnect === 1) {
-        setNotionClient(new NotionClient(auth, databaseId));
         form.setFieldsValue({auth, databaseId});
       }
     });
-  },[setNotionClient,form]);
+  },[form]);
 
   return <>
     <Form form={form} size='small' onFinish={onFinish}>
@@ -46,10 +41,10 @@ const AuthForm = () => {
         <Form.Item label="databaseId" name="databaseId" rules={[{ required: true, message: '请填写databaseId' }]}>
           <Input/>
         </Form.Item>
-        <Button onClick={form.submit}>设置</Button>
+        <Button onClick={form.submit} type='primary'>设置</Button>
       </Flex>
     </Form>
   </>
 };
 
-export {AuthForm};
+export {App};

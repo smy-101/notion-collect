@@ -1,4 +1,7 @@
-import {CreatePageParameters} from '@notionhq/client/build/src/api-endpoints';
+import {
+  CreatePageParameters,
+  QueryDatabaseResponse
+} from '@notionhq/client/build/src/api-endpoints';
 import {Client} from '@notionhq/client';
 
 export class NotionClient{
@@ -52,7 +55,11 @@ export class NotionClient{
   }
 
   public isExist(url:string){
-    return new Promise<string>((resolve,reject) => {
+    if(!url.startsWith('http')){
+      return Promise.reject('url不合法');
+    }
+    //eslint-disable-next-line
+    return new Promise<{pageId:string,properties:Record<string,any>}>((resolve,reject) => {
       this.loading = true;
       this.notion!.databases.query({
         database_id: this.databaseId!,
@@ -61,9 +68,9 @@ export class NotionClient{
           url: {equals: url}
         }
       })
-        .then(response => {
-          if(response?.results?.length > 0){
-            resolve(response.results[0].id)
+        .then((response:QueryDatabaseResponse) => {
+          if(response?.results?.length > 0 && 'properties' in response.results[0]){
+            resolve({pageId:response.results[0].id, properties:response.results[0]?.properties})
           }else{
             reject('未找到对应的url')
           }
@@ -72,6 +79,4 @@ export class NotionClient{
         .finally(()=>this.loading = false);
     })
   }
-
-
 }
